@@ -1,0 +1,9 @@
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\bin\Debug\TSPGroupProject.exe.config
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\bin\Debug\TSPGroupProject.exe
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\bin\Debug\TSPGroupProject.pdb
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupProject.csprojResolveAssemblyReference.cache
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupProject.Properties.Resources.resources
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupProject.csproj.GenerateResource.Cache
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupProject.exe
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupProject.pdb
+E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSP.mainform.resources
