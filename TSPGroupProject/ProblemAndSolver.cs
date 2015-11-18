@@ -426,7 +426,71 @@ namespace TSP
 
         private ArrayList SimulatedAnnealingSolution()
         {
-            return null;
+            ArrayList simAnnealRoute = GreedySolution();
+            ArrayList nextRoute = new ArrayList();
+            Random random = new Random(DateTime.Now.Millisecond);
+
+            int iteration = -1;
+            double temperature = 40000.0;
+            double deltaDistance = 0;
+            double coolinRate = 0.9999;
+            double absTemperature = 0.00001;
+    
+            double distance = getCost(simAnnealRoute);
+            
+
+            while(temperature > absTemperature)
+            {
+                nextRoute = getNextRoute(simAnnealRoute);
+                deltaDistance = getCost(nextRoute) - distance;
+
+                if(deltaDistance < 0 || (distance > 0 && Math.Exp(-deltaDistance/temperature) > random.NextDouble()))
+                {
+                    for (int i = 0; i < nextRoute.Count; i++)
+                    {
+                        simAnnealRoute[i] = nextRoute[i];
+                    }
+
+                    distance = deltaDistance + distance;
+                }
+
+                temperature *= coolinRate;
+                iteration++;
+            }
+
+            return simAnnealRoute;
+        }
+
+        private ArrayList getNextRoute(ArrayList prev)
+        {
+            ArrayList newRoute = new ArrayList(prev);
+
+            List<int> remainingCities = new List<int>();
+
+            //initialize the remaining cities array with all the cities
+            for (int i = 0; i < Cities.Length; i++)
+            {
+                remainingCities.Add(i);
+            }
+
+            int firstCity = new Random(DateTime.Now.Millisecond).Next(Cities.Length);
+
+            remainingCities.Remove(firstCity);
+
+            int secondCity = getUniqueRandom(Cities.Length, remainingCities);
+
+            City temp = (City) newRoute[firstCity];
+            newRoute[firstCity] = newRoute[secondCity];
+            newRoute[secondCity] = temp;
+
+            return newRoute;
+        }
+
+        private double getCost(ArrayList route)
+        {
+            TSPSolution r = new TSPSolution(route);
+
+            return r.costOfRoute();
         }
 
         /// <summary>
