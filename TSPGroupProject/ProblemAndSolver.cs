@@ -351,7 +351,33 @@ namespace TSP
         //THIS SECTION CONTAINS ALL THE SOLVERS FOR THE TSP
         private ArrayList RandomSolution()
         {
-            return null;
+            ArrayList randomRoute = new ArrayList();
+            List<int> remainingCities = new List<int>();
+            int nextCity;
+
+            //initialize the remaining cities array with all the cities
+            for (int i = 0; i < Cities.Length; i++)
+            {
+                remainingCities.Add(i);
+            }
+
+            while (remainingCities.Count > 0)
+            {
+                if (remainingCities.Count > 1)
+                {
+                    nextCity = getUniqueRandom(Cities.Length, remainingCities);
+                }
+                else
+                {
+                    // no need to get a random number if only 1 city is left in the list, just return the remaining city
+                    nextCity = remainingCities[remainingCities.Count - 1];
+                }
+
+                randomRoute.Add(Cities[nextCity]);
+                remainingCities.Remove(nextCity);
+            }
+
+            return randomRoute;
         }
 
         private ArrayList GreedySolution()
@@ -402,5 +428,33 @@ namespace TSP
         {
             return null;
         }
+
+        /// <summary>
+        /// Gets a unique random number up to the original set size.  Ensures the number is in the current set.  
+        /// </summary>
+        /// <param name="max">The maximum value from which a random number can be selected.</param>
+        /// <param name="remainingCities">A list of city indexes that can still be selected.</param>
+        /// <returns>A random integer.</returns>
+        private int getUniqueRandom(int max, List<int> remainingCities)
+        {
+            int r = 0;
+            Random random = new Random(DateTime.Now.Millisecond);            
+            bool gimmeNother = true;            
+
+            while (gimmeNother)
+            {
+                r = random.Next(max);
+
+                // See if the current random number (r) is in the list (has not already been used).
+                // If it is in the list it is valid, else get another.
+                if (remainingCities.Contains(r))
+                {
+                    gimmeNother = false;
+                }
+            }
+
+            return r;
+        }
+
     }
 }

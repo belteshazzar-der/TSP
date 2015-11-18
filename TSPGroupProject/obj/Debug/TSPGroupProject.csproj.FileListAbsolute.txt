@@ -7,3 +7,12 @@ E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupPro
 E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupProject.exe
 E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSPGroupProject.pdb
 E:\Docs\BYU\CS312\Projects\TSPGroupProject\TSPGroupProject\obj\Debug\TSP.mainform.resources
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\bin\Debug\TSPGroupProject.exe.config
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\bin\Debug\TSPGroupProject.exe
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\bin\Debug\TSPGroupProject.pdb
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\obj\Debug\TSPGroupProject.csprojResolveAssemblyReference.cache
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\obj\Debug\TSP.mainform.resources
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\obj\Debug\TSPGroupProject.Properties.Resources.resources
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\obj\Debug\TSPGroupProject.csproj.GenerateResource.Cache
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\obj\Debug\TSPGroupProject.exe
+C:\Users\duane_000\Documents\GitHub\TSP\TSPGroupProject\obj\Debug\TSPGroupProject.pdb
