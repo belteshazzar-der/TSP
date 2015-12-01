@@ -7,12 +7,14 @@ using System.Diagnostics;
 
 namespace TSP
 {
-    public enum Solver {DEFAULT, RANDOM, GREEDY, BRANCH_BOUND, SIMANNEAL};
+
+    public enum Solver { DEFAULT, RANDOM, GREEDY, BRANCH_BOUND, SIMANNEAL };
+
 
     class ProblemAndSolver
     {
 
-        private class TSPSolution
+        public class TSPSolution
         {
             /// <summary>
             /// we use the representation [cityB,cityA,cityC] 
@@ -288,237 +290,61 @@ namespace TSP
         /// </summary>
         public void solveProblem(Solver solver)
         {
+            Algorithms algo = new Algorithms();
             Stopwatch timer = new Stopwatch();
+            timer.Restart();
 
-            if(solver == Solver.DEFAULT)
+            switch (solver)
             {
-                timer.Restart();
+                case Solver.DEFAULT:
+                    int x;
+                    Route = new ArrayList();
 
-                int x;
-                Route = new ArrayList();
-                // this is the trivial solution. 
-                for (x = 0; x < Cities.Length; x++)
-                {
-                    Route.Add(Cities[Cities.Length - x - 1]);
-                }
+                    // this is the trivial solution. 
+                    for (x = 0; x < Cities.Length; x++)
+                    {
+                        Route.Add(Cities[Cities.Length - x - 1]);
+                    }
+                    break;
 
-                timer.Stop();
+                case Solver.RANDOM:
+                    Route = algo.RandomSolution(Cities);
+                    break;
 
-                // call this the best solution so far.  bssf is the route that will be drawn by the Draw method. 
-                bssf = new TSPSolution(Route);
-            }
-            else if(solver == Solver.RANDOM)
-            {
-                timer.Restart();
-                Route = RandomSolution();
-                timer.Stop();
+                case Solver.GREEDY:
+                    Route = algo.GreedySolution(Cities);
+                    break;
 
-                bssf = new TSPSolution(Route);
-            }
-            else if (solver == Solver.GREEDY)
-            {
-                timer.Restart();
-                Route = GreedySolution();
-                timer.Stop();
-                
-                bssf = new TSPSolution(Route);
-            }
-            else if (solver == Solver.BRANCH_BOUND)
-            {
-                timer.Restart();
-                Route = BranchBoundSolution();
-                timer.Stop();
+                case Solver.BRANCH_BOUND:
+                    double BSSF = double.PositiveInfinity;
+                    Route = algo.GreedySolution(Cities);
+                    TSPSolution greedyRoute = new TSPSolution(Route);
+                    BSSF = greedyRoute.costOfRoute();
+                    Route = algo.BranchAndBound(Cities, Route, BSSF);
+                    break;
 
-                bssf = new TSPSolution(Route);
-            }
-            else if (solver == Solver.SIMANNEAL)
-            {
-                timer.Restart();
-                Route = SimulatedAnnealingSolution();
-                timer.Stop();
+                case Solver.SIMANNEAL:
+                    Route = algo.SimulatedAnnealingSolution(Cities);
+                    break;
 
-                bssf = new TSPSolution(Route);
+                default:
+                    break;
             }
 
-            // display the time and the cost of the tour
-            Program.MainForm.tbElapsedTime.Text = " " + timer.Elapsed.TotalSeconds;
+            timer.Stop();
+            // call this the best solution so far.  bssf is the route that will be drawn by the Draw method. 
+            bssf = new TSPSolution(Route);
+            // update the cost of the tour. 
             Program.MainForm.tbCostOfTour.Text = " " + bssf.costOfRoute();
+            // do a refresh. 
             Program.MainForm.Invalidate();
+
         }
         #endregion
 
 
-        //THIS SECTION CONTAINS ALL THE SOLVERS FOR THE TSP
-        private ArrayList RandomSolution()
-        {
-            ArrayList randomRoute = new ArrayList();
-            List<int> remainingCities = new List<int>();
-            int nextCity;
 
-            //initialize the remaining cities array with all the cities
-            for (int i = 0; i < Cities.Length; i++)
-            {
-                remainingCities.Add(i);
-            }
-
-            while (remainingCities.Count > 0)
-            {
-                if (remainingCities.Count > 1)
-                {
-                    nextCity = getUniqueRandom(Cities.Length, remainingCities);
-                }
-                else
-                {
-                    // no need to get a random number if only 1 city is left in the list, just return the remaining city
-                    nextCity = remainingCities[remainingCities.Count - 1];
-                }
-
-                randomRoute.Add(Cities[nextCity]);
-                remainingCities.Remove(nextCity);
-            }
-
-            return randomRoute;
-        }
-
-        private ArrayList GreedySolution()
-        {
-            ArrayList greedyRoute = new ArrayList();
-            List<int> remainingCities = new List<int>();
-
-            //initialize the remaining cities array with all the cities
-            for (int i = 0; i < Cities.Length; i++)
-            {
-                remainingCities.Add(i);
-            }
-
-            //Choose the starting city to be a random one
-            int nextCity = new Random(DateTime.Now.Millisecond).Next(Cities.Length);
-
-            while (remainingCities.Count > 0)
-            {
-                greedyRoute.Add(Cities[nextCity]);
-                remainingCities.Remove(nextCity);
-
-                double bestDist = double.PositiveInfinity;
-                int bestCity = -1;
-
-                foreach (int city in remainingCities)
-                {
-                    double dist = Cities[nextCity].costToGetTo(Cities[city]);
-
-                    if (bestDist > dist)
-                    {
-                        bestCity = city;
-                        bestDist = dist;
-                    }
-                }
-
-                nextCity = bestCity;
-            }
-
-            return greedyRoute;
-        }
-
-        private ArrayList BranchBoundSolution()
-        {
-            return null;
-        }
-
-        private ArrayList SimulatedAnnealingSolution()
-        {
-            ArrayList simAnnealRoute = GreedySolution();
-            ArrayList nextRoute = new ArrayList();
-            Random random = new Random(DateTime.Now.Millisecond);
-
-            int iteration = -1;
-            double temperature = 40000.0;
-            double deltaDistance = 0;
-            double coolinRate = 0.9999;
-            double absTemperature = 0.00001;
-    
-            double distance = getCost(simAnnealRoute);
-            
-
-            while(temperature > absTemperature)
-            {
-                nextRoute = getNextRoute(simAnnealRoute);
-                deltaDistance = getCost(nextRoute) - distance;
-
-                if(deltaDistance < 0 || (distance > 0 && Math.Exp(-deltaDistance/temperature) > random.NextDouble()))
-                {
-                    for (int i = 0; i < nextRoute.Count; i++)
-                    {
-                        simAnnealRoute[i] = nextRoute[i];
-                    }
-
-                    distance = deltaDistance + distance;
-                }
-
-                temperature *= coolinRate;
-                iteration++;
-            }
-
-            return simAnnealRoute;
-        }
-
-        private ArrayList getNextRoute(ArrayList prev)
-        {
-            ArrayList newRoute = new ArrayList(prev);
-
-            List<int> remainingCities = new List<int>();
-
-            //initialize the remaining cities array with all the cities
-            for (int i = 0; i < Cities.Length; i++)
-            {
-                remainingCities.Add(i);
-            }
-
-            int firstCity = new Random(DateTime.Now.Millisecond).Next(Cities.Length);
-
-            remainingCities.Remove(firstCity);
-
-            int secondCity = getUniqueRandom(Cities.Length, remainingCities);
-
-            City temp = (City) newRoute[firstCity];
-            newRoute[firstCity] = newRoute[secondCity];
-            newRoute[secondCity] = temp;
-
-            return newRoute;
-        }
-
-        private double getCost(ArrayList route)
-        {
-            TSPSolution r = new TSPSolution(route);
-
-            return r.costOfRoute();
-        }
-
-        /// <summary>
-        /// Gets a unique random number up to the original set size.  Ensures the number is in the current set.  
-        /// </summary>
-        /// <param name="max">The maximum value from which a random number can be selected.</param>
-        /// <param name="remainingCities">A list of city indexes that can still be selected.</param>
-        /// <returns>A random integer.</returns>
-        private int getUniqueRandom(int max, List<int> remainingCities)
-        {
-            int r = 0;
-            Random random = new Random(DateTime.Now.Millisecond);            
-            bool gimmeNother = true;            
-
-            while (gimmeNother)
-            {
-                r = random.Next(max);
-
-                // See if the current random number (r) is in the list (has not already been used).
-                // If it is in the list it is valid, else get another.
-                if (remainingCities.Contains(r))
-                {
-                    gimmeNother = false;
-                }
-            }
-
-            return r;
-        }
 
     }
+
 }

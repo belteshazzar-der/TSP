@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -150,30 +150,45 @@ namespace TSP
         private void dToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.reset();
+
             CityData.solveProblem(Solver.DEFAULT);
         }
 
         private void greedyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.reset();
+            // TODO: Add a hook into your own implementation here.
+            //throw new NotImplementedException();
             CityData.solveProblem(Solver.GREEDY);
+
         }
 
         private void bBToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.reset();
+            // TODO: Add a hook into your own implementation here.
+            //throw new NotImplementedException();
+            
             CityData.solveProblem(Solver.BRANCH_BOUND);
+            TimeSpan timeTaken = new TimeSpan(Node.timeElapsed);
+            double timeEl = timeTaken.TotalMilliseconds * 10;
+            tbElapsedTime.Text = timeEl.ToString("N7");
+            toolStripTextBox1.Text = Node.numSolutions.ToString();
+            toolStripTextBox_MaxNodes.Text = Node.maxNodesCreated.ToString();
+            toolStripTextBox_Pruned.Text = Node.pruneCount.ToString();
+            toolStripTextBox_StatesCreated.Text = Node.numStatesCreated.ToString();
         }
 
         private void randomToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            this.reset();
+            // TODO: Add a hook into your own implementation here.
+            //throw new NotImplementedException();
+
             CityData.solveProblem(Solver.RANDOM);
         }
 
         private void yourTSPToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            this.reset();
+            // TODO: Add a hook into your own implementation here.
+            //throw new NotImplementedException();
             CityData.solveProblem(Solver.SIMANNEAL);
         }
 
@@ -194,5 +209,7 @@ namespace TSP
                 AlgorithmMenu2.ShowDropDown();
             }
         }
+
+        
     }
 }
