@@ -14,33 +14,93 @@ namespace TSP
         {
             ArrayList randomRoute = new ArrayList();
             List<int> remainingCities = new List<int>();
-            int nextCity;
+            int currCity = -1;
+            int prevCity = -1;
+            bool notConnected = true;
+            double dist = -1;
 
-            Node testNode = new Node(Cities);
+            remainingCities = initRemaining(remainingCities, Cities);
 
+            while (notConnected)
+            {
+                while (remainingCities.Count > 0)
+                {
+                    if (remainingCities.Count > 1)
+                    {                        
+                        currCity = getUniqueRandom(Cities.Length, remainingCities);
+
+                        if (prevCity != -1)
+                        {
+                            dist = Cities[prevCity].costToGetTo(Cities[currCity]);
+
+                            if (!double.IsInfinity(dist))
+                            {
+                                randomRoute.Add(Cities[currCity]);
+                                remainingCities.Remove(currCity);
+                                prevCity = currCity;
+                            }
+                        }
+                        else
+                        {
+                            randomRoute.Add(Cities[currCity]);
+                            remainingCities.Remove(currCity);
+                            prevCity = currCity;
+                        }
+                    }
+                    else
+                    {
+                        // no need to get a random number if only 1 city is left in the list, just return the remaining city
+                        currCity = remainingCities[remainingCities.Count - 1];
+                        dist = Cities[prevCity].costToGetTo(Cities[currCity]);
+
+                        if (!double.IsInfinity(dist))
+                        {                        
+                            randomRoute.Add(Cities[currCity]);
+                            remainingCities.Remove(currCity);
+                            prevCity = currCity;
+                        }
+                        else
+                        {
+                            // Next to last city cannot connect to last city.  Need to reset and try again to get a connected route.
+                            randomRoute.Clear();
+                            remainingCities.Clear();
+                            currCity = -1;
+                            prevCity = -1;
+                            remainingCities = initRemaining(remainingCities, Cities);
+                        }
+                    }
+                }
+
+                dist = Cities[currCity].costToGetTo((City)randomRoute[0]);
+
+                if (!double.IsInfinity(dist))
+                {
+                    notConnected = false;
+                }
+                else
+                {
+                    // Last city cannot connect to first city.  Need to reset and try again to get a connected route.
+                    randomRoute.Clear();
+                    remainingCities.Clear();
+                    currCity = -1;
+                    prevCity = -1;
+                    remainingCities = initRemaining(remainingCities, Cities);
+                }
+            }
+
+            return randomRoute;
+        }
+
+
+        public List<int> initRemaining(List<int> remainingCities, City[] Cities)
+        {
             //initialize the remaining cities array with all the cities
             for (int i = 0; i < Cities.Length; i++)
             {
                 remainingCities.Add(i);
             }
 
-            while (remainingCities.Count > 0)
-            {
-                if (remainingCities.Count > 1)
-                {
-                    nextCity = getUniqueRandom(Cities.Length, remainingCities);
-                }
-                else
-                {
-                    // no need to get a random number if only 1 city is left in the list, just return the remaining city
-                    nextCity = remainingCities[remainingCities.Count - 1];
-                }
-
-                randomRoute.Add(Cities[nextCity]);
-                remainingCities.Remove(nextCity);
-            }
-
-            return randomRoute;
+            return remainingCities;
         }
 
 
@@ -206,7 +266,6 @@ namespace TSP
         }
 
 
-
         public ArrayList SimulatedAnnealingSolution(City[] Cities)
         {
             ArrayList simAnnealRoute = GreedySolution(Cities);
@@ -269,6 +328,7 @@ namespace TSP
 
             return newRoute;
         }
+
 
         private double getCost(ArrayList route)
         {

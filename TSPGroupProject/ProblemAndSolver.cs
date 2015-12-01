@@ -308,7 +308,7 @@ namespace TSP
                     break;
 
                 case Solver.RANDOM:
-                    Route = algo.RandomSolution(Cities);
+                    Route = algo.RandomSolution(Cities);                    
                     break;
 
                 case Solver.GREEDY:
