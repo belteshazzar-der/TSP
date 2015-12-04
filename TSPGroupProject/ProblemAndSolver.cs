@@ -332,19 +332,13 @@ namespace TSP
             }
 
             timer.Stop();
-            // call this the best solution so far.  bssf is the route that will be drawn by the Draw method. 
             bssf = new TSPSolution(Route);
-            // update the cost of the tour. 
+
             Program.MainForm.tbCostOfTour.Text = " " + bssf.costOfRoute();
-            // do a refresh. 
+            Program.MainForm.tbElapsedTime.Text = " " + timer.Elapsed.TotalSeconds;
             Program.MainForm.Invalidate();
 
         }
         #endregion
-
-
-
-
     }
-
 }
