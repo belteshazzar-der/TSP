@@ -166,7 +166,7 @@ namespace TSP
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            while ((pQ.Size() > 0) && (pQ.Peek() < BSSF) && (timer.ElapsedMilliseconds / 1000 < 30))
+            while ((pQ.Size() > 0) && (pQ.Peek() < BSSF) && (timer.Elapsed.TotalMinutes < 10))
             {
                 // Keep track of the largest size of the queue
                 if (pQ.Size() > Node.maxNodesCreated)
