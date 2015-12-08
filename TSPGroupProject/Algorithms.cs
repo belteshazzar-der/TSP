@@ -166,7 +166,8 @@ namespace TSP
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            while ((pQ.Size() > 0) && (pQ.Peek() < BSSF) && (timer.Elapsed.TotalMinutes < 10))
+            //while ((pQ.Size() > 0) && (pQ.Peek() < BSSF) && (timer.Elapsed.TotalMinutes < 10))
+            while ((pQ.Size() > 0) && (pQ.Peek() < BSSF) && (timer.Elapsed.TotalSeconds < 30))
             {
                 // Keep track of the largest size of the queue
                 if (pQ.Size() > Node.maxNodesCreated)
@@ -266,20 +267,19 @@ namespace TSP
         }
 
 
-        public ArrayList SimulatedAnnealingSolution(City[] Cities)
+        public ArrayList SimulatedAnnealingSolution(City[] Cities, ArrayList simAnnealRoute)
         {
-            ArrayList simAnnealRoute = GreedySolution(Cities);
+            //ArrayList simAnnealRoute = GreedySolution(Cities);
             ArrayList nextRoute = new ArrayList();
             Random random = new Random(DateTime.Now.Millisecond);
 
             int iteration = -1;
-            double temperature = 50000.0;
+            //double temperature = 50000.0;
+            double temperature = Program.MainForm.saMaxTemp;
             double deltaDistance = 0;
-            double coolinRate = 0.9999;
+            double coolingRate = 0.9999;
             double absTemperature = 0.00001;
-
             double distance = getCost(simAnnealRoute);
-
 
             while (temperature > absTemperature)
             {
@@ -296,7 +296,7 @@ namespace TSP
                     distance = deltaDistance + distance;
                 }
 
-                temperature *= coolinRate;
+                temperature *= coolingRate;
                 iteration++;
             }
 

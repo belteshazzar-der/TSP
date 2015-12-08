@@ -12,6 +12,9 @@ namespace TSP
     public partial class mainform : Form
     {
         private ProblemAndSolver CityData;
+        public int saSource = 0;
+        public int saMaxTemp = 10000;
+
 
         public mainform()
         {
@@ -207,6 +210,56 @@ namespace TSP
             else
             {
                 AlgorithmMenu2.ShowDropDown();
+            }
+        }
+
+        private void SAOptions_Click(object sender, EventArgs e)
+        {
+            SAOptions saOpt = new SAOptions();
+            saOpt.trackBar_MaxTemp.Value = saMaxTemp / 10000;
+
+            switch (saSource)
+            {
+                case 0:
+                    saOpt.radioButton_Default.Checked = true;
+                    break;
+
+                case 1:
+                    saOpt.radioButton_Random.Checked = true;
+                    break;
+
+                case 2:
+                    saOpt.radioButton_Greedy.Checked = true;
+                    break;
+
+                case 3:
+                    saOpt.radioButton_Branch.Checked = true;
+                    break;
+            }
+
+            if (saOpt.ShowDialog() == DialogResult.OK)
+            {
+                saMaxTemp = saOpt.trackBar_MaxTemp.Value * 10000;
+
+                if (saOpt.radioButton_Default.Checked)
+                {
+                    saSource = 0;
+                }
+
+                if (saOpt.radioButton_Random.Checked)
+                {
+                    saSource = 1;
+                }
+
+                if (saOpt.radioButton_Greedy.Checked)
+                {
+                    saSource = 2;
+                }
+
+                if (saOpt.radioButton_Branch.Checked)
+                {
+                    saSource = 3;
+                }
             }
         }
 

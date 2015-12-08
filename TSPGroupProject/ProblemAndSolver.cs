@@ -324,7 +324,31 @@ namespace TSP
                     break;
 
                 case Solver.SIMANNEAL:
-                    Route = algo.SimulatedAnnealingSolution(Cities);
+                    switch (Program.MainForm.saSource)
+	                {
+                            // Random
+                        case 1:
+                            //Route = algo.RandomSolution(Cities);
+                            solveProblem(Solver.RANDOM);
+                            break;
+
+                            // Greedy
+                        case 2:
+                            //Route = algo.GreedySolution(Cities);
+                            solveProblem(Solver.GREEDY);
+                            break;
+
+                            // Branch and Bound
+                        case 3:
+                            solveProblem(Solver.BRANCH_BOUND);
+                            break;
+
+                        default:
+                            solveProblem(Solver.DEFAULT);
+                            break;
+	                }
+
+                    Route = algo.SimulatedAnnealingSolution(Cities, Route);
                     break;
 
                 default:
@@ -335,6 +359,8 @@ namespace TSP
             bssf = new TSPSolution(Route);
 
             Program.MainForm.tbCostOfTour.Text = " " + bssf.costOfRoute();
+            Program.MainForm.tbElapsedTime.Text = timer.Elapsed.ToString();
+            // do a refresh. 
             Program.MainForm.tbElapsedTime.Text = " " + timer.Elapsed.TotalSeconds;
             Program.MainForm.Invalidate();
 

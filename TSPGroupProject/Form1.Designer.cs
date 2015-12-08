@@ -63,6 +63,8 @@ namespace TSP
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel7 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripTextBox_MaxNodes = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
             this.SuspendLayout();
@@ -194,7 +196,9 @@ namespace TSP
             this.toolStripTextBox_Pruned,
             this.toolStripSeparator3,
             this.toolStripLabel7,
-            this.toolStripTextBox_MaxNodes});
+            this.toolStripTextBox_MaxNodes,
+            this.toolStripSeparator8,
+            this.toolStripButton1});
             this.toolStrip2.Location = new System.Drawing.Point(0, 698);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(1099, 27);
@@ -326,13 +330,28 @@ namespace TSP
             // toolStripLabel7
             // 
             this.toolStripLabel7.Name = "toolStripLabel7";
-            this.toolStripLabel7.Size = new System.Drawing.Size(87, 24);
-            this.toolStripLabel7.Text = "MaxNodes: ";
+            this.toolStripLabel7.Size = new System.Drawing.Size(88, 24);
+            this.toolStripLabel7.Text = "Max States: ";
             // 
             // toolStripTextBox_MaxNodes
             // 
             this.toolStripTextBox_MaxNodes.Name = "toolStripTextBox_MaxNodes";
             this.toolStripTextBox_MaxNodes.Size = new System.Drawing.Size(100, 27);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(6, 27);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(87, 24);
+            this.toolStripButton1.Text = "SA Options";
+            this.toolStripButton1.Click += new System.EventHandler(this.SAOptions_Click);
             // 
             // mainform
             // 
@@ -392,6 +411,8 @@ namespace TSP
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripLabel toolStripLabel7;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox_MaxNodes;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
 
 
 
